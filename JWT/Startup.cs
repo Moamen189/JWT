@@ -15,6 +15,7 @@ using JWT.Helpers;
 using JWT.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using JWT.Services;
 
 namespace JWT
 {
@@ -36,6 +37,7 @@ namespace JWT
             {
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped<IAuthService, AuthService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -56,7 +58,7 @@ namespace JWT
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication(); 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
