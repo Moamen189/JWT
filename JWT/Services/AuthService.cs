@@ -1,6 +1,6 @@
 ﻿namespace JWT.Services
 {
-    public class AuthService
+    public class AuthService:IAuthService
     {
     }
 }
