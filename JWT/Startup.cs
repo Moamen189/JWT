@@ -64,7 +64,7 @@ namespace JWT
                     ValidAudience = Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
                 };
-            };
+      
             });
         }
 
