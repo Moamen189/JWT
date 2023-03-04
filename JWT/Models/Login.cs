@@ -2,7 +2,7 @@
 
 namespace JWT.Models
 {
-    public class TokenRequestModel
+    public class Login
     {
 
         [Required]

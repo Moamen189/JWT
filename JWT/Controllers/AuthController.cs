@@ -40,7 +40,7 @@ namespace JWT.Controllers
 
         [HttpPost("token")]
 
-        public async Task<IActionResult> ResultAsync([FromBody] TokenRequestModel model)
+        public async Task<IActionResult> Login([FromBody] Login model)
         {
             if (!ModelState.IsValid)
             {
