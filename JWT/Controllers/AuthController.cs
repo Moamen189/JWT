@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JWT.Models;
+using JWT.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace JWT.Controllers
 {
@@ -7,5 +10,30 @@ namespace JWT.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IAuthService authService;
+
+        public AuthController(IAuthService authService)
+        {
+            this.authService = authService;
+        }
+
+        [HttpPost("register")]
+
+        public async Task<IActionResult> ResultAsync([FromBody] RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await authService.RegisterAsync(model);
+
+            if(!result.IsAuthenticated)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result);
+        }
     }
 }

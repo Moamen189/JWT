@@ -35,7 +35,13 @@ namespace JWT
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JWTT>(Configuration.GetSection("JWT"));
-             services.AddIdentity<IdentityUser , IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>(); ;
+             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+         //   services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+         //   {
+         //       options.User.RequireUniqueEmail = false;
+         //   })
+         //.AddEntityFrameworkStores<ApplicationDbContext>()
+         //   .AddDefaultTokenProviders();
             services.AddDbContext<ApplicationDbContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
