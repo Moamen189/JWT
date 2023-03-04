@@ -35,5 +35,26 @@ namespace JWT.Controllers
 
             return Ok(result);
         }
+
+
+
+        [HttpPost("token")]
+
+        public async Task<IActionResult> ResultAsync([FromBody] TokenRequestModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await authService.GetTokenAsync(model);
+
+            if (!result.IsAuthenticated)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result);
+        }
     }
 }
