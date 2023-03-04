@@ -57,6 +57,18 @@ namespace JWT.Services
             }
 
             await userManager.AddToRoleAsync(user, "User");
+
+            var jwtSecurityToken = await CreateJwtToken(user);
+
+            return new AuthModel {
+                Email = user.Email,
+                ExpiresOn = jwtSecurityToken.ValidTo,
+                IsAuthenticated = true,
+                Roles = new List<string> { "User" },
+                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                Username = user.UserName
+
+            };
         }
 
         private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
