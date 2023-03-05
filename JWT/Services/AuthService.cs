@@ -38,7 +38,7 @@ namespace JWT.Services
 
             var result = await userManager.AddToRoleAsync(user, model.Role);
 
-            return result.Succeeded ? string.Empty : "Sonething went wrong";
+            return result.Succeeded ? string.Empty : "Something went wrong";
         }
 
         public async  Task<AuthModel> GetTokenAsync(Login model)

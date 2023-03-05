@@ -36,6 +36,19 @@ namespace JWT.Controllers
             return Ok(result);
         }
 
+        [HttpPost("addrole")]
+        public async Task<IActionResult> AddRoleAsync([FromBody] RoleModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await authService.AddRoleAsync(model);
+
+            if (!string.IsNullOrEmpty(result))
+                return BadRequest(result);
+
+            return Ok(model);
+        }
 
 
         [HttpPost("token")]
