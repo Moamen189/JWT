@@ -60,7 +60,7 @@ namespace JWT.Services
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.Email = user.Email;
             authModel.Username = user.UserName;
-            authModel.ExpiresOn = jwtSecurityToken.ValidTo;
+            //authModel.ExpiresOn = jwtSecurityToken.ValidTo;
             authModel.Roles = rolesList.ToList();
 
             return authModel;
@@ -105,7 +105,7 @@ namespace JWT.Services
 
             return new AuthModel {
                 Email = user.Email,
-                ExpiresOn = jwtSecurityToken.ValidTo,
+                //ExpiresOn = jwtSecurityToken.ValidTo,
                 IsAuthenticated = true,
                 Roles = new List<string> { "User" },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
