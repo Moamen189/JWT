@@ -74,6 +74,10 @@ namespace JWT.Services
                 var RefreshToken = GenerateRefreshToken();
                 authModel.RefreshToken = RefreshToken.Token;
                 authModel.RefreshTokenDate = RefreshToken.ExpiresOn;
+
+                user.RefreshTokens.Add(RefreshToken);
+
+                await userManager.UpdateAsync(user);
             }
 
             return authModel;
