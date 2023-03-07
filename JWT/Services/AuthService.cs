@@ -64,6 +64,18 @@ namespace JWT.Services
             //authModel.ExpiresOn = jwtSecurityToken.ValidTo;
             authModel.Roles = rolesList.ToList();
 
+            if(user.RefreshTokens.Any(t => t.IsActive))
+            {
+                var activeRefreshToken = user.RefreshTokens.FirstOrDefault(t => t.IsActive);
+                authModel.RefreshToken = activeRefreshToken.Token;
+                authModel.RefreshTokenDate = activeRefreshToken.ExpiresOn;
+            }else
+            {
+                var RefreshToken = GenerateRefreshToken();
+                authModel.RefreshToken = RefreshToken.Token;
+                authModel.RefreshTokenDate = RefreshToken.ExpiresOn;
+            }
+
             return authModel;
         }
 
