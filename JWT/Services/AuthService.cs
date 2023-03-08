@@ -11,6 +11,7 @@ using System.Linq;
 using JWT.Helpers;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
 namespace JWT.Services
 {
@@ -79,6 +80,32 @@ namespace JWT.Services
 
                 await userManager.UpdateAsync(user);
             }
+
+            return authModel;
+        }
+
+        public async Task<AuthModel> RefreshTokenAsync(string token)
+        {
+            var authModel = new AuthModel();
+
+            var user = await userManager.Users.SingleOrDefaultAsync(t => t.RefreshTokens.Any(t => t.Token == token));
+            if(user == null)
+            {
+                authModel.IsAuthenticated=false;
+                authModel.Message = "Invalid Token";
+                return authModel;
+            }
+
+            var refreshToken = user.RefreshTokens.Single(t => t.Token == token);
+
+            if (!refreshToken.IsActive)
+            {
+                authModel.IsAuthenticated = false;
+                authModel.Message = "Invalid Token";
+                return authModel;
+            }
+
+
 
             return authModel;
         }

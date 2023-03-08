@@ -8,6 +8,8 @@ namespace JWT.Services
         Task<AuthModel> RegisterAsync(RegisterModel model);
 
         Task<AuthModel> GetTokenAsync(Login model);
+        Task<AuthModel> RefreshTokenAsync(string token);
+
 
         Task<string> AddRoleAsync(RoleModel model);
     }
