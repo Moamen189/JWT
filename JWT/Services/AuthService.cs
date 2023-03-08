@@ -105,7 +105,21 @@ namespace JWT.Services
                 return authModel;
             }
 
+            refreshToken.RevokedOn = DateTime.UtcNow;
 
+            var newRefreshToken = GenerateRefreshToken();
+            user.RefreshTokens.Add(newRefreshToken);
+            await userManager.UpdateAsync(user);
+
+            var jwtToken = await CreateJwtToken(user);
+            authModel.IsAuthenticated = true;
+            authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            authModel.Email = user.Email;
+            authModel.Username = user.UserName;
+            var roles = await userManager.GetRolesAsync(user);
+            authModel.Roles = roles.ToList();
+            authModel.RefreshToken = newRefreshToken.Token;
+            authModel.RefreshTokenDate = newRefreshToken.ExpiresOn;
 
             return authModel;
         }
