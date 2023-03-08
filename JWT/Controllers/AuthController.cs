@@ -51,6 +51,20 @@ namespace JWT.Controllers
             return Ok(model);
         }
 
+        [HttpGet("refreshToken")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            var result = await authService.RefreshTokenAsync(refreshToken);
+
+            if (!result.IsAuthenticated)
+                return BadRequest(result);
+
+            SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenDate);
+
+            return Ok(result);
+        }
 
         [HttpPost("token")]
 
