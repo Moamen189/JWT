@@ -12,6 +12,7 @@ using JWT.Helpers;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace JWT.Services
 {
@@ -170,6 +171,25 @@ namespace JWT.Services
                 Username = user.UserName
 
             };
+        }
+
+        public async Task<bool> RevokeTokenAsync(string token)
+        {
+            var user = await userManager.Users.SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
+
+            if (user == null)
+                return false;
+
+            var refreshToken = user.RefreshTokens.Single(t => t.Token == token);
+
+            if (!refreshToken.IsActive)
+                return false;
+
+            refreshToken.RevokedOn = DateTime.UtcNow;
+
+            await userManager.UpdateAsync(user);
+
+            return true;
         }
 
         private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)

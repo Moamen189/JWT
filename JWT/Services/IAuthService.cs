@@ -12,5 +12,8 @@ namespace JWT.Services
 
 
         Task<string> AddRoleAsync(RoleModel model);
+
+        Task<bool> RevokeTokenAsync(string token);
+
     }
 }

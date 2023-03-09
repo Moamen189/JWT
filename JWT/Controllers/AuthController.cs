@@ -33,6 +33,7 @@ namespace JWT.Controllers
             {
                 return BadRequest(result.Message);
             }
+            SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenDate);
 
             return Ok(result);
         }
